@@ -6,9 +6,8 @@ console.log(THREE);
 
 /**
  * UIでバックを実装
- 
-const gui = new dat.GUI();
  */
+const gui = new dat.GUI();
 
 // キャンバスの取得
 const canvas = document.querySelector(".webgl");
