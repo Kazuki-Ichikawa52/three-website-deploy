@@ -6,8 +6,9 @@ console.log(THREE);
 
 /**
  * UIでバックを実装
- */
+
 const gui = new dat.GUI();
+ */
 
 // キャンバスの取得
 const canvas = document.querySelector(".webgl");
@@ -55,7 +56,7 @@ const material = new THREE.MeshPhysicalMaterial({
 });
 
 // デスクトップ版ではGUIを表示
-if (sizes.width >= 768) {
+if (sizes.width >= 400) {
   gui.addColor(material, "color").name("Color");
   gui.add(material, "metalness").min(0).max(1).step(0.001).name("Metalness");
   gui.add(material, "roughness").min(0).max(1).step(0.001).name("Roughness");

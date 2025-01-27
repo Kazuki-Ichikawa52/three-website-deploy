@@ -92,6 +92,7 @@ html {
   main .content p {
     font-size: 1rem; /* フォントサイズを調整 */
     line-height: 1.5; /* 行間を狭く */
+    margin-top: 30px;
   }
 
   main .content button {
