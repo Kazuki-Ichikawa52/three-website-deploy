@@ -33,7 +33,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.z = sizes.width < 768 ? 8 : 6; // モバイルではカメラを少し遠ざける
+camera.position.z = sizes.width < 768 ? 10 : 6; // モバイルではカメラを遠ざける
 scene.add(camera);
 
 // レンダラー
@@ -69,6 +69,13 @@ const mesh3 = new THREE.Mesh(
   material
 );
 const mesh4 = new THREE.Mesh(new THREE.IcosahedronGeometry(), material);
+
+// 初期スケール設定（スマホ向け）
+const scale = sizes.width < 768 ? 0.7 : 1;
+mesh1.scale.set(scale, scale, scale);
+mesh2.scale.set(scale, scale, scale);
+mesh3.scale.set(scale, scale, scale);
+mesh4.scale.set(scale, scale, scale);
 
 // 回転用に配置する
 mesh1.position.set(2, 0, 0);
@@ -128,7 +135,14 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   // カメラ位置を調整
-  camera.position.z = sizes.width < 768 ? 8 : 6;
+  camera.position.z = sizes.width < 768 ? 10 : 6;
+
+  // スケール調整
+  const scale = sizes.width < 768 ? 0.7 : 1;
+  mesh1.scale.set(scale, scale, scale);
+  mesh2.scale.set(scale, scale, scale);
+  mesh3.scale.set(scale, scale, scale);
+  mesh4.scale.set(scale, scale, scale);
 
   // モバイルとデスクトップでGUIの表示を切り替え
   if (sizes.width >= 768 && gui._hidden) {
@@ -136,59 +150,6 @@ window.addEventListener("resize", () => {
   } else if (sizes.width < 768 && !gui._hidden) {
     gui.hide();
   }
-});
-
-// ホイールの実装
-let speed = 0;
-let rotation = 0;
-
-if (sizes.width >= 768) {
-  // デスクトップではホイールで回転
-  window.addEventListener("wheel", (event) => {
-    speed += event.deltaY * 0.0002;
-  });
-} else {
-  // モバイルではタッチ操作で回転
-  let startY = 0;
-  window.addEventListener("touchstart", (event) => {
-    startY = event.touches[0].clientY;
-  });
-
-  window.addEventListener("touchmove", (event) => {
-    const deltaY = event.touches[0].clientY - startY;
-    speed += deltaY * 0.0002;
-    startY = event.touches[0].clientY;
-  });
-}
-
-function rot() {
-  rotation += speed;
-  speed *= 0.93;
-
-  // ジオメトリ全体を回転
-  mesh1.position.x = 2 + 3.8 * Math.cos(rotation);
-  mesh1.position.z = -3 + 3.8 * Math.sin(rotation);
-
-  mesh2.position.x = 2 + 3.8 * Math.cos(rotation + Math.PI / 2);
-  mesh2.position.z = -3 + 3.8 * Math.sin(rotation + Math.PI / 2);
-
-  mesh3.position.x = 2 + 3.8 * Math.cos(rotation + Math.PI);
-  mesh3.position.z = -3 + 3.8 * Math.sin(rotation + Math.PI);
-
-  mesh4.position.x = 2 + 3.8 * Math.cos(rotation + 3 * (Math.PI / 2));
-  mesh4.position.z = -3 + 3.8 * Math.sin(rotation + 3 * (Math.PI / 2));
-
-  window.requestAnimationFrame(rot);
-}
-
-rot();
-
-// カーソルの位置を取得
-const cursor = { x: 0, y: 0 };
-
-window.addEventListener("mousemove", (event) => {
-  cursor.x = event.clientX / sizes.width - 0.5;
-  cursor.y = event.clientY / sizes.height - 0.5;
 });
 
 // アニメーション
@@ -204,10 +165,6 @@ const animate = () => {
     mesh.rotation.x += 0.1 * getDeltaTime;
     mesh.rotation.y += 0.12 * getDeltaTime;
   }
-
-  // カメラの制御
-  camera.position.x += -cursor.x * getDeltaTime * 2;
-  camera.position.y += cursor.y * getDeltaTime * 2;
 
   window.requestAnimationFrame(animate);
 };
