@@ -33,7 +33,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.z = sizes.width < 768 ? 10 : 6; // モバイルではカメラを遠ざける
+camera.position.z = sizes.width < 400 ? 10 : 6; // モバイルではカメラを遠ざける
 scene.add(camera);
 
 // レンダラー
@@ -71,7 +71,7 @@ const mesh3 = new THREE.Mesh(
 const mesh4 = new THREE.Mesh(new THREE.IcosahedronGeometry(), material);
 
 // 初期スケール設定（スマホ向け）
-const scale = sizes.width < 768 ? 0.7 : 1;
+const scale = sizes.width < 400 ? 0.7 : 1;
 mesh1.scale.set(scale, scale, scale);
 mesh2.scale.set(scale, scale, scale);
 mesh3.scale.set(scale, scale, scale);
@@ -92,7 +92,7 @@ const meshes = [mesh1, mesh2, mesh3, mesh4];
 
 // パーティクルジオメトリ
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = sizes.width < 768 ? 300 : 700; // モバイルではパーティクルを減少
+const particlesCount = sizes.width < 400 ? 300 : 700; // モバイルではパーティクルを減少
 const positionArray = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i++) {
   positionArray[i] = (Math.random() - 0.5) * 10;
@@ -135,19 +135,19 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   // カメラ位置を調整
-  camera.position.z = sizes.width < 768 ? 10 : 6;
+  camera.position.z = sizes.width < 400 ? 10 : 6;
 
   // スケール調整
-  const scale = sizes.width < 768 ? 0.7 : 1;
+  const scale = sizes.width < 400 ? 0.7 : 1;
   mesh1.scale.set(scale, scale, scale);
   mesh2.scale.set(scale, scale, scale);
   mesh3.scale.set(scale, scale, scale);
   mesh4.scale.set(scale, scale, scale);
 
   // モバイルとデスクトップでGUIの表示を切り替え
-  if (sizes.width >= 768 && gui._hidden) {
+  if (sizes.width >= 400 && gui._hidden) {
     gui.show();
-  } else if (sizes.width < 768 && !gui._hidden) {
+  } else if (sizes.width < 400 && !gui._hidden) {
     gui.hide();
   }
 });

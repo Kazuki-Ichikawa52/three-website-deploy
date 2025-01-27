@@ -75,7 +75,7 @@ html {
 }
 
 /* スマホ用レイアウト調整 */
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   html {
     background-size: contain;
     background-position: top center;
@@ -83,7 +83,7 @@ html {
 }
 
 /* スマホ向けスタイル */
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   main .content h1 {
     font-size: 3rem; /* スマホ用のフォントサイズを設定 */
     line-height: 1.2;
