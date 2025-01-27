@@ -89,11 +89,14 @@ html {
     line-height: 1.2;
   }
 
+  main .content {
+    margin-top: 30px; /* 上方向に余白を追加 */
+    margin-bottom: 40px; /* 必要に応じて下方向の余白も追加 */
+  }
+
   main .content p {
     font-size: 1rem; /* フォントサイズを調整 */
     line-height: 1.5; /* 行間を狭く */
-    margin-top: 30px; /* 上方向に余白を追加 */
-    margin-bottom: 40px; /* 必要に応じて下方向の余白も追加 */
   }
 
   main .content button {
