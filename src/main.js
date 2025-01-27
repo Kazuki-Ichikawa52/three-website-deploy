@@ -5,10 +5,10 @@ import * as dat from "lil-gui";
 console.log(THREE);
 
 /**
- * UIデバックを実装
+ * UIでバックを実装
  
 const gui = new dat.GUI();
-*/
+ */
 
 // キャンバスの取得
 const canvas = document.querySelector(".webgl");
@@ -55,11 +55,11 @@ const material = new THREE.MeshPhysicalMaterial({
   flatShading: false,
 });
 
+// デスクトップ版ではGUIを表示
 if (sizes.width >= 768) {
-  // モバイルではGUIを非表示
-  gui.addColor(material, "color");
-  gui.add(material, "metalness").min(0).max(1).step(0.001);
-  gui.add(material, "roughness").min(0).max(1).step(0.001);
+  gui.addColor(material, "color").name("Color");
+  gui.add(material, "metalness").min(0).max(1).step(0.001).name("Metalness");
+  gui.add(material, "roughness").min(0).max(1).step(0.001).name("Roughness");
 }
 
 // メッシュ
@@ -130,6 +130,13 @@ window.addEventListener("resize", () => {
 
   // カメラ位置を調整
   camera.position.z = sizes.width < 768 ? 8 : 6;
+
+  // モバイルとデスクトップでGUIの表示を切り替え
+  if (sizes.width >= 768 && gui._hidden) {
+    gui.show();
+  } else if (sizes.width < 768 && !gui._hidden) {
+    gui.hide();
+  }
 });
 
 // ホイールの実装
@@ -188,27 +195,21 @@ window.addEventListener("mousemove", (event) => {
 // アニメーション
 const clock = new THREE.Clock();
 
-let lastTime = 0;
-const fps = 30; // 30FPSに制限
-const interval = 1000 / fps;
+const animate = () => {
+  renderer.render(scene, camera);
 
-const animate = (time) => {
-  if (time - lastTime >= interval) {
-    renderer.render(scene, camera);
-    lastTime = time;
+  const getDeltaTime = clock.getDelta();
 
-    const getDeltaTime = clock.getDelta();
-
-    // メッシュを回転させる
-    for (const mesh of meshes) {
-      mesh.rotation.x += 0.1 * getDeltaTime;
-      mesh.rotation.y += 0.12 * getDeltaTime;
-    }
-
-    // カメラの制御
-    camera.position.x += -cursor.x * getDeltaTime * 2;
-    camera.position.y += cursor.y * getDeltaTime * 2;
+  // メッシュを回転させる
+  for (const mesh of meshes) {
+    mesh.rotation.x += 0.1 * getDeltaTime;
+    mesh.rotation.y += 0.12 * getDeltaTime;
   }
+
+  // カメラの制御
+  camera.position.x += -cursor.x * getDeltaTime * 2;
+  camera.position.y += cursor.y * getDeltaTime * 2;
+
   window.requestAnimationFrame(animate);
 };
 
