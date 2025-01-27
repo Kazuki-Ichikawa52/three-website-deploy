@@ -68,7 +68,7 @@ main button:hover {
 
 @media (max-width: 768px) {
   h1 {
-    font: size 3.5em;
+    font-size: 14px;
   }
   html {
     background-size: cover;
